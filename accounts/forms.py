@@ -15,12 +15,12 @@ class LoginForm(forms.Form):
         password = cleaned_data.get('password')
 
         if username and password:
-            self.user = authenticate(username=username, password=password)
-            if self.user is None:
-                raise ValidationError("Invalid username or password")
-
+            user = authenticate(username=username, password=password)
+            if user is None:
+                raise forms.ValidationError("Invalid username or password")
+            else:
+                cleaned_data['user'] = user
         return cleaned_data
-
 
 
 class EmployeeForm(forms.ModelForm):
