@@ -42,11 +42,16 @@ INSTALLED_APPS = [
     # third-party libraries
     'rest_framework',
     'bootstrapform',
+    'crispy_forms',
+    'crispy_bootstrap4',
     # local
     'core',
     'accounts',
     'survey'
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),

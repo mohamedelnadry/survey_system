@@ -1,28 +1,22 @@
-from django import forms
+from django.db import models
+from core.models import BaseModel
 from django.contrib.auth.models import User
-from .models import Employee
 
-class EmployeeForm(forms.ModelForm):
-    username = forms.CharField(max_length=150, required=True)
-    password = forms.CharField(widget=forms.PasswordInput())
 
+class Employee(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    job_title = models.CharField(max_length=50)
+    department = models.CharField(max_length=50)
+    parent = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        related_name="children",
+        on_delete=models.SET_NULL,
+    )
     class Meta:
-        model = Employee
-        fields = ['job_title', 'department']
+        verbose_name = "Employee"
+        verbose_name_plural = "Employees"
 
-    def save(self, commit=True):
-        employee = super().save(commit=False)
-        username = self.cleaned_data['username']
-        password = self.cleaned_data['password']
-
-        user, created = User.objects.get_or_create(username=username)
-        if created:
-            user.set_password(password)
-            user.save()
-
-        employee.user = user
-
-        if commit:
-            employee.save()
-
-        return employee
+    def __str__(self):
+        return self.user.username
