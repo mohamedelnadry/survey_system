@@ -1,0 +1,13 @@
+
+{% load bootstrap %}
+
+{% block title %}Register{% endblock title %}
+
+{% block content %} 
+    <form method="post">
+        {% csrf_token %}
+        {{ form|bootstrap_horizontal:'col-lg-4' }}
+        <button type="submit">Register</button>
+        <br><br>
+    </form>
+{% endblock content %}
