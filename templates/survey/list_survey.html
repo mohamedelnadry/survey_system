@@ -16,7 +16,7 @@
                             <p class="card-text">End Date: {{ get_survey.end_date }}</p>
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="btn btn-success">Take Survey</a>
+                            <a href="{% url 'survey' survey.id %}">Take Survey</a>
                         </div>
                     </div>
                 </div>
