@@ -1,3 +1,4 @@
+"""Survey App Web_urls."""
 from django.urls import path
 from .web_veiw import SurveyView, SurveyAnswerFormView, SubmittedSurveyListView
 
