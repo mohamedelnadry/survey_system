@@ -1,11 +1,15 @@
+"""Accounts App Forms."""
 from django import forms
 from django.contrib.auth.models import User
-from .models import Employee
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
+from .models import Employee
 
-
-class LoginForm(forms.Form):  
+class LoginForm(forms.Form):
+    """
+    Form for logging in users.
+    """
+    
     username = forms.CharField(max_length=150, required=True)
     password = forms.CharField(widget=forms.PasswordInput(), required=True)
 
@@ -14,16 +18,20 @@ class LoginForm(forms.Form):
         username = cleaned_data.get('username')
         password = cleaned_data.get('password')
 
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if user is None:
-                raise forms.ValidationError("Invalid username or password")
-            else:
-                cleaned_data['user'] = user
+        # Authenticate the user
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise forms.ValidationError("Invalid username or password")
+        else:
+            cleaned_data['user'] = user
         return cleaned_data
 
 
 class EmployeeForm(forms.ModelForm):
+    """
+    Form for registering and updating Employees.
+    """
+    
     username = forms.CharField(max_length=150, required=True)
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -54,7 +62,6 @@ class EmployeeForm(forms.ModelForm):
             user.save()
 
         employee.user = user
-
         if commit:
             employee.save()
 
