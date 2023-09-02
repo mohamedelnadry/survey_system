@@ -15,7 +15,7 @@ class SurveyForm(forms.ModelForm):
         if survey:
             questions = survey.questions.all()
             for question in questions:
-                field_name = f'{question.id}'
+                field_name = f'question_{question.id}'
                 self.fields[field_name] = forms.FloatField(
                     label=str(question),
                     validators=[MinValueValidator(0), MaxValueValidator(10)],

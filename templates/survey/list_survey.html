@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         {% for survey in surveys %}
             {% for get_survey in survey.survey.all %}
-                <div class="col-md-6 mb-5"> <!-- Adjusted width here -->
+                <div class="col-md-6 mb-5"> 
                     <div class="card text-center shadow-lg">
                         <div class="card-header bg-primary text-white">
                             <h4>{{ get_survey.name }}</h4>
@@ -20,11 +20,11 @@
                         </div>
                     </div>
                 </div>
-            {% empty %}
-                <div class="col-12 text-center">
-                    <p class="text-danger">No surveys available at the moment.</p>
-                </div>
             {% endfor %}
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-danger">No surveys available at the moment.</p>
+        </div>
         {% endfor %}
     </div>
 </div>
