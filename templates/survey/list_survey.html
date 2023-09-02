@@ -2,32 +2,26 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        {% for survey in surveys %}
-            {% for get_survey in survey.survey.all %}
-                <div class="col-md-6 mb-5"> 
-                    <div class="card text-center shadow-lg">
-                        <div class="card-header bg-primary text-white">
-                            <h4>{{ get_survey.name }}</h4>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Details</h5>
-                            <p class="card-text">Start Date: {{ get_survey.start_date }}</p>
-                            <p class="card-text">End Date: {{ get_survey.end_date }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="{% url 'survey' survey.id %}">Take Survey</a>
-                        </div>
-                    </div>
+    {% for survey in surveys %}
+        {% for get_survey in survey.survey.all %}
+            <div class="card mt-3 shadow-lg rounded">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Survey: {{ get_survey.name }}</h4>
                 </div>
-            {% endfor %}
-        {% empty %}
-        <div class="col-12 text-center">
-            <p class="text-danger">No surveys available at the moment.</p>
-        </div>
+                <div class="card-body">
+                    <h6 class="card-title">Survey Details</h6>
+                    <p><strong>Start Date:</strong> {{ get_survey.start_date }}</p>
+                    <p><strong>End Date:</strong> {{ get_survey.end_date }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'survey' survey.id %}" class="btn btn-danger">Take Survey</a>
+                </div>
+            </div>
         {% endfor %}
-    </div>
+    {% empty %}
+        <div class="col-12 text-center mt-5">
+            <p class="text-danger h5">No submitted surveys available at the moment.</p>
+        </div>
+    {% endfor %}
 </div>
 {% endblock content %}
-
-
