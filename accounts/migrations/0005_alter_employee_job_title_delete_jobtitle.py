@@ -4,19 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('accounts', '0004_alter_employee_job_title'),
+        ("accounts", "0004_alter_employee_job_title"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='employee',
-            name='job_title',
+            model_name="employee",
+            name="job_title",
             field=models.CharField(default=1, max_length=50),
             preserve_default=False,
         ),
         migrations.DeleteModel(
-            name='JobTitle',
+            name="JobTitle",
         ),
     ]

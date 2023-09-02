@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('survey', '0002_answer_created_at_answer_updated_at_and_more'),
+        ("survey", "0002_answer_created_at_answer_updated_at_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='survey',
-            name='end_date',
+            model_name="survey",
+            name="end_date",
             field=models.DateField(),
         ),
         migrations.AlterField(
-            model_name='survey',
-            name='start_date',
+            model_name="survey",
+            name="start_date",
             field=models.DateField(),
         ),
     ]

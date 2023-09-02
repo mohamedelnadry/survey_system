@@ -1,22 +1,24 @@
 """Survey App Views."""
 from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import generics, views
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.exceptions import NotFound
-from .models import Survey, Question, Answer, EmployeeServey
-from accounts.models import Employee
-from .serializers import (
-    SurveySerializer,
-    QuestionSerializer,
-    EmployeeSerializer,
-)
 from django.utils import timezone
+from rest_framework import generics, status, views
+from rest_framework.exceptions import NotFound
+from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from accounts.models import Employee
+
+from .models import Answer, EmployeeServey, Question, Survey
+from .serializers import (
+    EmployeeSerializer,
+    QuestionSerializer,
+    SurveySerializer,
+)
 
 
 class SurveyView(generics.ListAPIView):
     """List all surveys available for an employee."""
+
     authentication_classes = [JWTAuthentication]
     serializer_class = EmployeeSerializer
 
@@ -29,13 +31,16 @@ class SurveyView(generics.ListAPIView):
         """Retrieve all active surveys for a given employee."""
         employee = Employee.objects.get(user=user)
         surveys = EmployeeServey.objects.filter(
-            user=employee, submitted=False, survey__end_date__gte=timezone.now().date()
+            user=employee,
+            submitted=False,
+            survey__end_date__gte=timezone.now().date(),
         )
         return surveys
 
 
 class SubmitedSurveyView(generics.ListAPIView):
     """List all submitted surveys for an employee."""
+
     authentication_classes = [JWTAuthentication]
     serializer_class = EmployeeSerializer
 
@@ -47,22 +52,25 @@ class SubmitedSurveyView(generics.ListAPIView):
         """Retrieve all submitted surveys for a given employee."""
         employee = Employee.objects.get(user=user)
         surveys = EmployeeServey.objects.filter(
-            user=employee, submitted=True, survey__end_date__gte=timezone.now().date()
+            user=employee,
+            submitted=True,
+            survey__end_date__gte=timezone.now().date(),
         )
         return surveys
 
 
 class SurveyAnswer(views.APIView):
     """Class for submitting answers to a survey."""
+
     authentication_classes = [JWTAuthentication]
 
     def post(self, request):
         """
         Handle POST requests to submit survey answers.
-        
+
         Args:
             request (Request): The request object containing survey and answers data.
-        
+
         Returns:
             Response: A response object indicating the success or failure of the operation.
         """
@@ -83,9 +91,12 @@ class SurveyAnswer(views.APIView):
         questions = SurveyAnswer.get_questions(survey)
         if not questions:
             return Response(
-                {"message": "Survey Not Found"}, status=status.HTTP_204_NO_CONTENT
+                {"message": "Survey Not Found"},
+                status=status.HTTP_204_NO_CONTENT,
             )
-        answers = SurveyAnswer.create_answer(answers=answers, questions=questions)
+        answers = SurveyAnswer.create_answer(
+            answers=answers, questions=questions
+        )
         if not answers:
             return Response(
                 {"message": "Check questions and answers"},
@@ -161,6 +172,7 @@ class SurveyAnswer(views.APIView):
 
 class DetailSurveyView(generics.ListAPIView):
     """List all questions for a given survey."""
+
     authentication_classes = [JWTAuthentication]
     serializer_class = QuestionSerializer
 

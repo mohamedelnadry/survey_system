@@ -4,23 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('survey', '0005_remove_question_survey_survey_survey'),
+        ("survey", "0005_remove_question_survey_survey_survey"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='answer',
-            name='employee',
+            model_name="answer",
+            name="employee",
         ),
         migrations.RemoveField(
-            model_name='answer',
-            name='response',
+            model_name="answer",
+            name="response",
         ),
         migrations.AddField(
-            model_name='answer',
-            name='rating',
+            model_name="answer",
+            name="rating",
             field=models.FloatField(default=1),
             preserve_default=False,
         ),

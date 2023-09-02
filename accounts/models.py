@@ -1,6 +1,7 @@
 """Accounts App Models."""
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 from core.models import BaseModel
 
 
@@ -8,6 +9,7 @@ class Employee(BaseModel):
     """
     Employee model extending the BaseModel.
     """
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     job_title = models.CharField(max_length=50)

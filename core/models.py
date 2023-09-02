@@ -17,4 +17,3 @@ class BaseModel(models.Model):
         """Meta class."""
 
         abstract = True
-    

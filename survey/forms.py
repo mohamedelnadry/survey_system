@@ -1,7 +1,8 @@
 """Survey App Forms."""
 from django import forms
-from django.core.validators import MinValueValidator, MaxValueValidator
-from .models import Question, Answer, EmployeeServey
+from django.core.validators import MaxValueValidator, MinValueValidator
+
+from .models import Answer, EmployeeServey, Question
 
 
 class SurveyForm(forms.ModelForm):

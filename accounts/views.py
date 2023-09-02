@@ -1,8 +1,9 @@
 """Accounts App Views."""
-from rest_framework import generics, views, status
-from rest_framework.response import Response
-from .models import Employee
 from django.contrib.auth.models import User
+from rest_framework import generics, status, views
+from rest_framework.response import Response
+
+from .models import Employee
 from .serializers import RegisterEmployeeSerializer
 
 
@@ -26,7 +27,8 @@ class UserRegister(views.APIView):
         serializer = RegisterEmployeeSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(
-                {"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST
+                {"message": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         username = serializer.validated_data["username"]
@@ -34,10 +36,14 @@ class UserRegister(views.APIView):
         job_title = serializer.validated_data["job_title"]
         department = serializer.validated_data["department"]
 
-        employee = self.create_employee(username, password, job_title, department)
+        employee = self.create_employee(
+            username, password, job_title, department
+        )
         if not employee:
             return Response(
-                {"message": "Can't create user, please try again with valid inputs"},
+                {
+                    "message": "Can't create user, please try again with valid inputs"
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -58,7 +64,9 @@ class UserRegister(views.APIView):
             Employee: The created Employee object, or None if creation failed.
         """
         try:
-            user = User.objects.create_user(username=username, password=password)
+            user = User.objects.create_user(
+                username=username, password=password
+            )
             employee = Employee.objects.create(
                 user=user, job_title=job_title, department=department
             )

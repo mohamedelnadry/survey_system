@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('survey', '0003_alter_survey_end_date_alter_survey_start_date'),
+        ("survey", "0003_alter_survey_end_date_alter_survey_start_date"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='survey',
-            old_name='type',
-            new_name='type_employee',
+            model_name="survey",
+            old_name="type",
+            new_name="type_employee",
         ),
         migrations.AddField(
-            model_name='survey',
-            name='submitted',
+            model_name="survey",
+            name="submitted",
             field=models.BooleanField(default=False),
         ),
     ]

@@ -6,13 +6,13 @@
         {% for get_survey in survey.survey.all %}
             <div class="card mt-3">
                 <div class="card-header bg-primary text-white">
-                    <h4>Survey: {{ get_survey.name }}</h4> 
+                    <h4>Survey: {{ get_survey.name }}</h4>
                 </div>
                 <div class="card-body">
-                    <h6 class="card-title">Survey Details</h6> 
+                    <h6 class="card-title">Survey Details</h6>
                     <p><strong>Start Date:</strong> {{ get_survey.start_date }}</p>
                     <p><strong>End Date:</strong> {{ get_survey.end_date }}</p>
-                    <hr> 
+                    <hr>
                     <h6 class="card-title">Questions and Answers</h6>
                     <ul>
                         {% for answer in survey.answer.all %}

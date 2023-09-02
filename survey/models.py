@@ -1,10 +1,11 @@
 """Survey App Models."""
 from django.db import models
-from core.models import BaseModel
-from accounts.models import Employee
-from django.urls import reverse
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
+
+from accounts.models import Employee
+from core.models import BaseModel
 
 # Enum for question types
 QUESTION_TYPE_CHOICES = [
@@ -16,6 +17,7 @@ QUESTION_TYPE_CHOICES = [
 
 class Question(BaseModel):
     """Model for survey questions."""
+
     text = models.TextField()
 
     def __str__(self):
@@ -24,6 +26,7 @@ class Question(BaseModel):
 
 class Survey(models.Model):
     """Model for a survey."""
+
     name = models.CharField(max_length=255)
     questions = models.ManyToManyField(Question, related_name="questions")
     type_employee = models.CharField(
@@ -41,6 +44,7 @@ class Survey(models.Model):
 
 class Answer(BaseModel):
     """Model for answers to survey questions."""
+
     question = models.ForeignKey(
         Question, related_name="answers", on_delete=models.CASCADE
     )
@@ -52,13 +56,12 @@ class Answer(BaseModel):
 
 class EmployeeServey(BaseModel):
     """Model for storing surveys related to an employee."""
+
     user = models.ForeignKey(
         Employee, related_name="employee_survey", on_delete=models.CASCADE
     )
     survey = models.ManyToManyField(Survey, related_name="survey")
-    answer = models.ManyToManyField(
-        Answer, related_name="asnwers", blank=True
-    )
+    answer = models.ManyToManyField(Answer, related_name="asnwers", blank=True)
     submitted = models.BooleanField(default=False)
 
     @receiver(post_save, sender=Survey)
@@ -72,14 +75,14 @@ class EmployeeServey(BaseModel):
                 employee_survey = EmployeeServey.objects.create(user=employee)
                 employee_survey.survey.add(instance)
 
-         # Followers type of survey
+        # Followers type of survey
         elif instance.type_employee == "followers":
             """Assuming immediate parents are to be considered for 'followers'."""
             parents = Employee.objects.exclude(children__isnull=True)
             for parent in parents:
                 employee_survey = EmployeeServey.objects.create(user=parent)
                 employee_survey.survey.add(instance)
-                
+
         # Reversed type of survey
         elif instance.type_employee == "reversed":
             """For the reversed case, find all employees who are parents."""

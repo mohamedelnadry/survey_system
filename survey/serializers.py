@@ -1,12 +1,13 @@
 """Accounts App Serializer."""
 from rest_framework import serializers
-from .models import Survey, Question, Answer, EmployeeServey
-
 from rest_framework.exceptions import ValidationError
+
+from .models import Answer, EmployeeServey, Question, Survey
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     """Serializer for Question model."""
+
     class Meta:
         model = Question
         fields = ["id", "text"]
@@ -14,6 +15,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class AnswerSerializer(serializers.ModelSerializer):
     """Serializer for Answer model."""
+
     class Meta:
         model = Answer
         fields = ["question", "rating"]
@@ -21,6 +23,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class SurveySerializer(serializers.ModelSerializer):
     """Serializer for Survey model with nested questions."""
+
     questions = QuestionSerializer(many=True)
 
     class Meta:
@@ -30,6 +33,7 @@ class SurveySerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     """Serializer for EmployeeServey model with nested survey and answer."""
+
     survey = SurveySerializer(many=True)
     answer = AnswerSerializer(many=True)
 
@@ -40,6 +44,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         """Modify the serialized output."""
         instance = super().to_representation(instance)
-        if instance['answer']==[]:
-            instance.pop('answer')
+        if instance["answer"] == []:
+            instance.pop("answer")
         return instance

@@ -4,16 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('survey', '0007_rename_survey_survey_questions'),
-        ('accounts', '0006_employee_parent'),
+        ("survey", "0007_rename_survey_survey_questions"),
+        ("accounts", "0006_employee_parent"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='employee',
-            name='survey',
-            field=models.ManyToManyField(related_name='employee_surveys', to='survey.survey'),
+            model_name="employee",
+            name="survey",
+            field=models.ManyToManyField(
+                related_name="employee_surveys", to="survey.survey"
+            ),
         ),
     ]
