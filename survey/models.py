@@ -29,8 +29,6 @@ class Survey(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
 
-
-
     def __str__(self):
         return self.name
 
@@ -60,25 +58,24 @@ class EmployeeServey(BaseModel):
 
     @receiver(post_save, sender=Survey)
     def create_employee_survey(sender, instance, **kwargs):
-        if instance.type_employee == 'general':
-            # Assuming Employee has a field `is_admin` to check for admin status
+        if instance.type_employee == "general":
+            """Assuming Employee has a field `is_admin` to check for admin status."""
             for employee in Employee.objects.all():
                 employee_survey = EmployeeServey.objects.create(user=employee)
                 employee_survey.survey.add(instance)
-                
-        elif instance.type_employee == 'followers':
-            # Assuming immediate parents are to be considered for 'followers'
+
+        elif instance.type_employee == "followers":
+            """Assuming immediate parents are to be considered for 'followers'."""
             for employee in Employee.objects.exclude(parent__isnull=True):
                 employee_survey = EmployeeServey.objects.create(user=employee)
                 employee_survey.survey.add(instance)
-                
-        elif instance.type_employee == 'reversed':
-            # For the reversed case, find all employees who are parents.
+
+        elif instance.type_employee == "reversed":
+            """For the reversed case, find all employees who are parents."""
             parents = Employee.objects.exclude(children__isnull=True)
             for parent in parents:
                 employee_survey = EmployeeServey.objects.create(user=parent)
                 employee_survey.survey.add(instance)
-
 
     def __str__(self):
         return self.user.user.username
