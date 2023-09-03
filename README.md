@@ -1,36 +1,106 @@
 # Employee Survey System
 
----
-##### **system actors:**
+## Introduction
+The Employee Survey System is a web application built with Django that allows organizations to conduct surveys amongst employees. Through this platform, HR departments can create, distribute, and analyze surveys with ease.
 
-- **Admin**
-- **Employee (Name - JobTitle - department  ) ( Allow self-register)**
+## Setup and Installation
+1. Clone the repository
+```bash
+git clone git@github.com:mohamedelnadry/survey_system.git
+```
+2. Change directory
+```bash
+cd EmployeeSurveySystem
+```
+3. Setup Environment Variables: Copy `.env.example `to create a `.env` file.
 
+```env
+DATABASE_NAME = postgres
+DATABASE_USER = postgres
+DATABASE_PASSWORD = 1
+DATABASE_HOST = db
+DATABASE_PORT = 5432
+SECRET_KEY = Secret_Key
+DEBUG = True
+```
+4. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+5. Run migrations
+```bash
+python manage.py migrate
+```
+6. Run the application
+```bash
+python manage.py runserver
+```
+7. Open your browser and navigate to `http://127.0.0.1:8000/accounts/registerform`
 
----
-##### **The system has three data objects:**
-- Question
-- Answers
-- Survey --> list of rating questions - has three types (general, followers, reversed) - has start date - has an end date
+## End Points and URLs
+Below is a list of the available end-points and associated template views:
 
----
-##### views (implemented as a restful API and template view):---
-1.  **Employee tree view**  -> *set up by the admin*     Every employee can have a parent employee that they report to as the above fig
-    ![Untitled Diagram drawio (1)](https://user-images.githubusercontent.com/30774866/187946789-b02f8be0-4a84-424b-89bd-6b33170aaa99.png)
+### Authentication
 
-2. **survey view**
+- Login: `/accounts/login/`
+- Logout: `/accounts/logout/`
+- Register:`/accounts/registerform/`
 
-    1. view for due surveys [list]
-    2. View for submitted surveys [list]
-    3. View for fetching a single survey question [detail]
-    4. view for submitting the answer for the survey  [POST - Form]
-    5. Employee real-time chatting system using WebSockets
----
-##### **Admin flow**
+### Survey Management
 
-1.  Admin only can create (question, surveys)
-2.  Admin can lunch survey for three different channel
-    - general --> means that all the system users besides the Admins will get that survey
-    - followers --> mean that all the parents will get a survey on every child in their tree (for example a senior software engineer reviewing his team juniors engineer  )
-    - reversed --> means all the children will receive a survey on the parent employee
----
+- List Surveys:`/listsurvey/`
+- List Submitted Surveys:`/submitedsurvey/`
+- Create and Retrieve Question Survey: `/survey/id_survey/`
+
+## API End Points
+The system also provides RESTful APIs for programmatic interaction.
+
+### Authentication
+- Login API: POST `/accounts/api/token`
+```json
+{
+    "username":"user_name",
+    "password":"password"
+}
+```
+- Register API: POST `/accounts/api/register`
+```json
+{
+    "username":"username",
+    "password":"password",
+    "job_title":"job_title",
+    "department":"department"
+}
+```
+### Survey Management
+- List All Surveys: GET `/api/survey`
+```http
+'Authorization: Bearer Token'
+```
+- List All Submitted Surveys: GET `/api/submitedsurvey`
+```http
+'Authorization: Bearer Token'
+```
+- Retrieve a Survey: GET `/api/survey/<int:survey_id>/`
+```http
+'Authorization: Bearer Token'
+```
+- Create a Survey: POST `/api/submitsurvey/`
+```http
+'Authorization: Bearer Token'
+```
+```json
+{
+    "survey": [15],
+    "answers": [
+        {
+            "question_id": 5,
+            "rating": 9.00
+        },
+        {
+            "question_id": 8,
+            "rating": 12.00
+        }
+    ]
+}
+```
