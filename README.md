@@ -75,19 +75,19 @@ The system also provides RESTful APIs for programmatic interaction.
 ### Survey Management
 - List All Surveys: GET `/api/survey`
 ```http
-'Authorization: Bearer Token'
+Authorization: Bearer Token
 ```
 - List All Submitted Surveys: GET `/api/submitedsurvey`
 ```http
-'Authorization: Bearer Token'
+Authorization: Bearer Token
 ```
 - Retrieve a Survey: GET `/api/survey/<int:survey_id>/`
 ```http
-'Authorization: Bearer Token'
+Authorization: Bearer Token
 ```
 - Create a Survey: POST `/api/submitsurvey/`
 ```http
-'Authorization: Bearer Token'
+Authorization: Bearer Token
 ```
 ```json
 {
